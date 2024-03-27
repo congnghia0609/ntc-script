@@ -1,0 +1,31 @@
+
+## Run script mongo upgrade
+chmod +x mongo_upgrade.sh
+./mongo_upgrade.sh
+
+
+## Test Mongo 5.0.11 data có đúng hay không?
+# ref: https://docs.docker.com/network/
+docker run --rm -d --name some-mongo -v /home/nghiatc/lab/labMongo/db:/data/db -p 27027:27017 mongo:5.0.11
+
+## check docker
+docker ps
+
+## Dùng Tool MongoDB Compass kết nối với host = localhost, port = 27027
+
+
+## Mongo import data
+# https://www.mongodb.com/docs/database-tools/mongodump/
+# https://www.mongodb.com/docs/database-tools/mongorestore/
+docker exec -it some-mongo mongorestore /data/db/dump
+
+
+
+## cp -r path_to_source path_to_destination/
+mkdir -p /home/nghiatc/lab/labMongo/dbnew/
+sudo cp -r /home/nghiatc/lab/labMongo/db/dump /home/nghiatc/lab/labMongo/dbnew/
+
+sudo chown -R nghiatc /home/nghiatc/lab/labMongo/dbnew/dump
+
+
+
